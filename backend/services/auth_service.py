@@ -2,6 +2,7 @@ import bcrypt
 from flask_jwt_extended import create_access_token
 from models import db
 from models.user import User
+from utils.jwt_helper import generate_token
 
 from utils.validators import (
     is_valid_email,
@@ -59,7 +60,7 @@ def login_user(data):
     ):
         return {"error": "Invalid Password"}, 401
 
-    token = create_access_token(identity=str(user.user_id))
+    token = generate_token(user.user_id)
 
     return {
         "message": "Login Successful",
